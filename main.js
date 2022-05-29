@@ -165,7 +165,7 @@ function bookMarkRender(bookMark) {
   let elResultBookmarkFragment = document.createDocumentFragment();
 
   bookMark.forEach(function (movie) {
-    /
+
     let elMoviBookmark = elBookmarkTemplate.cloneNode(true);
 
     $(".js_bookmark_film_title").textContent = movie.Title;
