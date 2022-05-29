@@ -5,12 +5,20 @@ elFilmCategory = $(".film_category", elForm);
 elFilmRating = $(".film_rating", elForm);
 elFilmSort = $(".film-sort", elForm);
 
+elResultBookmarkList = $(".bookmark_list");
+
+// Modal content div 
+elModalContent = $(".modal");
 
 // Natija chiqadigan list ya'ni ul
 let elResult = $(".js_result_list");
 
 // Templateni chaqirib olish
 let elTemplate = $(".template_movi").content;
+
+// Bookmark templatini chaqirib olish
+let elBookmarkTemplate = $(".bookmark_template").content;
+console.log(elBookmarkTemplate);
 
 // Listni qirqib olish
 movies.splice(100);
@@ -34,6 +42,17 @@ let normalizedMovi = movies.map(movie => {
   }
 })
 
+elFilmCategory.addEventListener("click", (e) => {
+  sortCategory(e.target.value);
+  console.log(e.target.value);
+})
+
+function sortCategory(item) {
+  let foundCategpory = normalizedMovi.filter(element => item ? element.categories.slice("|", 5) == item.slice(0, 5) : true)
+  renderMovies(foundCategpory)
+}
+
+
 
 let createGenreSelectOptions = function () {
   let movieCategories = [];
@@ -55,32 +74,31 @@ let createGenreSelectOptions = function () {
     newElCategoryOption.value = category;
 
     elOptionsFragment.append(newElCategoryOption);
-    elFilmCategory.append(elOptionsFragment)
+    elFilmCategory.append(elOptionsFragment);
   });
 }
 createGenreSelectOptions();
 
 
-let renderMovies = function (searchResults) {
+function renderMovies(searchResults) {
   elResult.innerHTML = "";
 
   let elResultFragment = document.createDocumentFragment();
 
   searchResults.forEach(function (movie) {
     let elMovie = elTemplate.cloneNode(true);
-
+    $(".js_result_list_item", elMovie).dataset.imdbid = movie.imdbid;
     $(".js_film_img", elMovie).src = movie.imgurl;
     $(".js_card_title", elMovie).textContent = movie.title;
     $(".js_card_year", elMovie).textContent = movie.year;
     $(".js_card_rating", elMovie).textContent = movie.imdbrating;
     $(".more_btn", elMovie).href = movie.youtubeid;
     $(".js_card_genre", elMovie).textContent = movie.categories;
-
     elResultFragment.appendChild(elMovie);
   })
   elResult.appendChild(elResultFragment);
 }
-renderMovies(normalizedMovi)
+renderMovies(normalizedMovi);
 
 
 let sortObjectsAZ = function (array) {
@@ -120,8 +138,66 @@ elForm.addEventListener("change", function (e) {
 
   let searchResults = findMovies(movieTitleRegex, minimumRating);
 
+  sortCategory();
+
   sortSearchResults(searchResults, sorting);
 
   renderMovies(searchResults);
 
+})
+
+// modal ga normalizedMovi arrayidan ma'lumotlarni push qilisj
+let updateModalContent = function (movie) {
+  $(".modal_film_img").src = movie.imgurl;
+  $(".js_film_title", elModalContent).textContent = movie.title;
+  $(".js_film_full_title", elModalContent).textContent = movie.fulltitle;
+  $(".js_film_rating", elModalContent).textContent = movie.year;
+  $(".js_film_runtime", elModalContent).textContent = movie.runtime
+  $(".js_film_language", elModalContent).textContent = movie.language;
+  $(".js_film_categories", elModalContent).textContent = movie.categories;
+  $(".js_film_summary", elModalContent).textContent = movie.summary;
+}
+
+
+function bookMarkRender(bookMark) {
+  elResultBookmarkList = "";
+
+  let elResultBookmarkFragment = document.createDocumentFragment();
+
+  bookMark.forEach(function (movie) {
+    /
+    let elMoviBookmark = elBookmarkTemplate.cloneNode(true);
+
+    $(".js_bookmark_film_title").textContent = movie.Title;
+    $(".js_film_bookmark_rating").textContent = movie.rating;
+
+    elResultBookmarkFragment.appendChild(elMoviBookmark);
+  })
+  elResultBookmarkList.appendChild(elResultBookmarkFragment)
+  console.log(bookMark);
+}
+
+//saqalangan kinolarni yig'ib boruvchi array  
+let bookMark = [];
+elResult.addEventListener("click", function (e) {
+  if (e.target.matches(".modal-open")) {
+    let movieImdbid = e.target.closest(".js_result_list_item").dataset.imdbid;
+
+    let foundMovi = normalizedMovi.find(function (movie) {
+      return movie.imdbid === movieImdbid
+    })
+
+    updateModalContent(foundMovi)
+  }
+
+  if (e.target.matches(".bookmark_btn")) {
+    let movieImdbid = e.target.closest(".js_result_list_item").dataset.imdbid;
+
+    normalizedMovi.find(function (movie) {
+      if (movie.imdbid === movieImdbid) {
+        bookMark.push(movie);
+        bookMarkRender(bookMark)
+      }
+    })
+  }
 })

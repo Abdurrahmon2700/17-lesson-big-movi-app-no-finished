@@ -43,16 +43,21 @@
         <div class="p-3">
           <h3 class="">Bookmarks</h3>
           <p>If you don’t like to read, you haven’t found the</p>
-          <ul class="p-0">
-            <li class="save_film-item border border-2 p-2 d-flex align-items-center justify-content-sm-between">
-              <div>
-                <h5>Film name</h5>
-                <p>Lorem ipsum dolor</p>
-              </div>
-              <div>
-                <i class='bx bxs-tag-x'></i>
-              </div>
-            </li>
+          <ul class="bookmark_list p-0">
+
+            <template class="bookmark_template">
+              <li class="save_film-item border border-2 p-2 d-flex align-items-center justify-content-sm-between">
+                <div>
+                  <h5 class="js_bookmark_film_title"></h5>
+                  <p class="js_film_bookmark_rating"></p>
+                  <p class=".js_film_year"></p>
+                </div>
+                <div>
+                  <i class='bx bxs-tag-x'></i>
+                </div>
+              </li>
+            </template>
+
           </ul>
         </div>
       </div>
@@ -60,12 +65,13 @@
       <div class="col-9 p-3">
         <ul class="js_result_list d-flex justify-content-center flex-wrap">
           <template class="template_movi">
-            <li class="col-4">
+
+            <li class="js_result_list_item col-4">
               <div class="wrapper_item-film p-2 m-2">
                 <div class="wrapper_item-film p-2 m-1">
                   <img class="js_film_img w-100" src="img/bookimg.png" alt="">
                 </div>
-                <div>
+                <div class="item_information">
                   <h4 class="js_card_title"></h4>
                   <p class="js_card_genre"></p>
                   <div class="d-flex align-items-center">
@@ -78,29 +84,37 @@
                   </div>
                 </div>
                 <div>
+
                   <div class="d-flex">
                     <button type="button" class="buttons bookmark_btn w-50 mb-1">Bookmark</button>
                     <a href="" target="_blank" class="buttons more_btn w-50 mb-1 ms-1 text-center">Trailer<i
                         class='bx bx-play'></i></a href="" target="_blank">
                   </div>
-                  <button type="button" class="buttons read_btn w-100" data-bs-toggle="modal"
+                  <button type="button" class="modal-open buttons read_btn w-100" data-bs-toggle="modal"
                     data-bs-target="#exampleModal">Read</button>
                 </div>
               </div>
             </li>
           </template>
+
         </ul>
       </div>
     </main>
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
+
+        <img class="modal_film_img" src="" alt="">
         <div class="modal-content">
-          <p class="js_film_description"></p>
+
+          <h4 class="js_film_title"></h4>
           <p class="js_film_full_title"></p>
           <p class="js_film_rating"></p>
           <p class="js_film_runtime"></p>
           <p class="js_film_language"></p>
+          <p class="js_film_categories"></p>
+          <p class="js_film_summary"></p>
+
         </div>
       </div>
     </div>
