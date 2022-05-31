@@ -5,11 +5,8 @@ elFilmCategory = $(".film_category", elForm);
 elFilmRating = $(".film_rating", elForm);
 elFilmSort = $(".film-sort", elForm);
 
-
-let elH1111 = document.querySelector(".xek");
+// Bookmark listni ul ni chaqirish
 elResultBookmarkList = $(".bookmark_list");
-
-
 
 // Modal content div 
 elModalContent = $(".modal");
@@ -20,12 +17,10 @@ let elResult = $(".js_result_list");
 // Templateni chaqirib olish
 let elTemplate = $(".template_movi").content;
 
-// Bookmark templatini chaqirib olish
-
 // Listni qirqib olish
 movies.splice(100);
 
-
+// Bookmark listni chaqirish
 elBookmarkTemplate = $(".bookmark_template").content;
 
 // Katta arrayni xossalarini to'g'rilab chiqish
@@ -53,8 +48,8 @@ elFilmCategory.addEventListener("click", (e) => {
 })
 
 function sortCategory(item) {
-  let foundCategpory = normalizedMovi.filter(element => item ? element.categories.slice("|", 5) == item.slice(0, 5) : true)
-  renderMovies(foundCategpory)
+  let foundCategpory = normalizedMovi.filter(element => item ? element.categories.slice("|", 5) == item.slice(0, 5) : true);
+  renderMovies(foundCategpory);
 }
 
 
@@ -186,13 +181,7 @@ function bookMarkRender(array) {
   elResultBookmarkList.appendChild(elResultFragment);
 }
 
-// let elDeleteBookmarkBtn = doum
 
-// elDeleteBookmarkBtn.addEventListener("click", (e) => {
-//   console.log("sdf");
-// })
-
-//saqalangan kinolarni yig'ib boruvchi array  
 elResult.addEventListener("click", function (e) {
   if (e.target.matches(".modal-open")) {
     let movieImdbid = e.target.closest(".js_result_list_item").dataset.imdbid;
